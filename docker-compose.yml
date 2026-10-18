@@ -1,0 +1,61 @@
+
+services:
+  std-mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: std-mosquitto
+    restart: unless-stopped
+    ports:
+      - "11883:1883"
+    volumes:
+      - ./std_lab_data/mosquitto/config:/mosquitto/config
+      - ./std_lab_data/mosquitto/data:/mosquitto/data
+      - ./std_lab_data/mosquitto/log:/mosquitto/log
+    networks:
+      - std-iot-net
+
+
+  std-influxdb:
+    image: influxdb:2.0
+    container_name: std-influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./std_lab_data/influxdb:/var/lib/influxdb2
+    networks:
+      - std-iot-net
+
+
+  std-nodered:
+    image: nodered/node-red:latest
+    container_name: std-nodered
+    restart: unless-stopped
+    ports:
+      - "11880:1880"
+    volumes:
+      - ./std_lab_data/nodered:/data
+    networks:
+      - std-iot-net
+    depends_on:
+      - std-mosquitto
+      - std-influxdb
+
+
+  std-grafana:
+    image: grafana/grafana:latest
+    container_name: std-grafana
+    restart: unless-stopped
+    ports:
+      - "13000:3000"
+    volumes:
+      - ./std_lab_data/grafana:/var/lib/grafana
+    networks:
+      - std-iot-net
+    depends_on:
+      - std-influxdb
+
+
+networks:
+  std-iot-net:
+    driver: bridge
+

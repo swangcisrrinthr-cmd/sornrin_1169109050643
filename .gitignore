@@ -1,0 +1,18 @@
+.pio
+.vscode/.browse.c_cpp.db*
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/ipch
+
+# Docker runtime data
+/std_lab_data/mosquitto/data/
+/std_lab_data/mosquitto/log/
+/std_lab_data/influxdb/
+/std_lab_data/grafana/
+
+# Node-RED generated state and credentials
+/std_lab_data/nodered/.config.*
+/std_lab_data/nodered/*.backup
+/std_lab_data/nodered/flows_cred.json
+/std_lab_data/nodered/node_modules/
+/std_lab_data/nodered/.npm/
